@@ -20,6 +20,3 @@ head(cars, n=50L)
 
 # Para visualizar la estructura del objeto de datos
 str(cars)
-
-# Graficar el error vs. numero de arboles
-plot(Boston.rf)

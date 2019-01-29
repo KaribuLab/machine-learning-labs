@@ -30,6 +30,21 @@ modeloCars <- randomForest(Condition ~ ., data = conjuntoEntrenamiento, importan
 # Parametros configurados 
 modeloCars2 <- randomForest(Condition ~ ., data = conjuntoEntrenamiento, ntree = 500, mtry = 6, importance = TRUE)
 
+# Se realiza prediccion en conjuntos de entrenamiento y validacion
+predEntrenamiento <- predict(modeloCars2, conjuntoEntrenamiento, type = "class")
 
+table(predEntrenamiento, conjuntoEntrenamiento$Condition)
+
+predValidacion <- predict(modeloCars2, conjuntoValidacion, type = "class")
+
+mean(predValidacion==conjuntoValidacion$Condition)
+
+table(predValidacion, conjuntoValidacion$Condition)
+
+# Prediccion de un nuevo dato
+
+#Visualizacion de error vs. numero de arboles
+
+plot(modeloCars2)
 
 
