@@ -5,9 +5,6 @@ require(randomForest)
 # R (>= 3.1.0)
 #require(MASS)
 
-# Aplicamos la funcion attach para acceder a los objetos del dataframe boston (Housing Values in Suburbs of Boston).
-#attach(Boston)
-
 # Abrimos el archivo desde el explorador de la pc con el comando a continuacion.
 cars <- read.csv(file.choose(), header = TRUE)
 
@@ -21,18 +18,17 @@ entrenamiento <- sample(nrow(cars), 0.7*nrow(cars), replace = FALSE)
 conjuntoEntrenamiento <- cars[entrenamiento,]
 conjuntoValidacion <- cars[-entrenamiento,]
 
-# Se realizara la prediccion sobre la variable medv. Se usan los predictores del conjunto de datos.
-#cars.rf=randomForest(Condition ~ . , data = cars , subset = entrenamiento)
+# Se realizara la prediccion sobre la variable condition. Se usan los predictores del conjunto de datos.
+cars.rf=randomForest(Condition ~  BuyingPrice + Maintenance, data = cars , subset = entrenamiento)
 
-# otra forma de generar el modelo, usando los parametros por defecto tambien. 
-modeloCars <- randomForest(Condition ~ ., data = conjuntoEntrenamiento, importance = TRUE)
+# Generar el modelo, usando los parametros por defecto. 
+modeloCars <- randomForest(Condition ~  BuyingPrice + Maintenance, data = conjuntoEntrenamiento, importance = TRUE)
 
 # Parametros configurados 
-modeloCars2 <- randomForest(Condition ~ ., data = conjuntoEntrenamiento, ntree = 500, mtry = 6, importance = TRUE)
+modeloCars2 <- randomForest(Condition ~  BuyingPrice + Maintenance, data = conjuntoEntrenamiento, ntree = 500, mtry = 6, importance = TRUE)
 
 # Se realiza prediccion en conjuntos de entrenamiento y validacion
 predEntrenamiento <- predict(modeloCars2, conjuntoEntrenamiento, type = "class")
-
 table(predEntrenamiento, conjuntoEntrenamiento$Condition)
 
 predValidacion <- predict(modeloCars2, conjuntoValidacion, type = "class")
@@ -42,6 +38,7 @@ mean(predValidacion==conjuntoValidacion$Condition)
 table(predValidacion, conjuntoValidacion$Condition)
 
 # Prediccion de un nuevo dato
+
 
 #Visualizacion de error vs. numero de arboles
 
